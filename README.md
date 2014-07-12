@@ -1,4 +1,4 @@
-annotron
+ANNOTRON
 ========
 
 Coming soon
