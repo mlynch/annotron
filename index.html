@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html>
+  <head>
+
+    <link rel="stylesheet" href="index.css">
+
+    <script src="http://cdnjs.cloudflare.com/ajax/libs/rangy/1.2.3/rangy-core.js"></script>
+    <script src="annotron.js"></script>
+  </head>
+  <body>
+    <div id="wrapper">
+      <div>
+        <h1>ANNOTRON</h1>
+        <p>
+          A configurable text selection, annotation, and recollection library for the browser runtime.
+        </p>
+        <hr>
+        <h2>TEST YOUR UNDERSTANDING</h2>
+
+        <i>(Use the pointer mechanism to select and release a selection of text below):</i>
+      </div>
+
+      <div id="post">
+        <p>The blood-red glow of a slanting sun bathed the towers of New York's
+        serrated skyline, then dropped into a molten sea beyond the winter
+        horizon. Friday, the last day of Jupiter, the thirteenth month of the
+        earth's new calendar, had drawn to a close. In a few hours the year of
+        1999 would end--at midnight, to be exact.</p>
+
+        <p>Far below the towers stretched well lighted canyons teeming with
+        humanity. At an upper level where once the elevated trains had roared
+        and rumbled in an antiquated period long past, an orderly mass of
+        workers and shoppers was borne at an incredible speed from lower
+        Manhattan to towering apartments that stretched northward to
+        Peekskill. The northbound traffic was heaviest at this hour and the
+        moving sidewalk bands were jammed to their capacity.</p>
+
+        <p>Street cars, now obsolete, had vanished from the streets under the new
+        order of things as had also passenger cars, taxis and trucks. Speed
+        predominated. Noise had practically been eliminated. Except for the
+        gentle throb of giant motors far underground, the city was cloaked in
+        silence.</p>
+
+        <p>At regular intervals along the four-speed moving bands that formed the
+        transportation of the great metropolis, huge circular shafts of steel
+        mounted upward beyond the roofs of the tallest buildings. Within these
+        shafts, swift elevators carried passengers who lived in the outlying
+        districts to the level of the station platforms of the interstate
+        operating transport planes.</p>
+      </div>
+
+      <hr>
+      <h2>USE</h2>
+
+      <hr>
+      <h2>INTERFACE</h2>
+
+      <hr>
+      <h2>PROGRAMMER</h2>
+
+      <a href="http://twitter.com/maxlynch">maxlynch</a>
+    </div>
+
+    <script>
+      var popup;
+
+      var a = new Annotron({
+        el: document.getElementById('post'),
+        annotationDelay: 100,
+        onCancelAnnotation: function() {
+          if(popup) {
+            popup.style.display = 'none';
+          }
+        },
+        onAnnotation: function(selection) {
+          // We are asked to annotate the given node, centered
+          // at x, y on the 2D plane.
+
+          console.log('SELECTION', selection);
+
+          if(!popup) {
+            popup = document.createElement('div');
+            popup.className = 'annotation-popup';
+            popup.innerHTML = 'Annotate';
+            popup.style.display = 'none';
+            popup.addEventListener('click', function() {
+              doAnnotation(selection);
+              return false;
+            });
+            document.body.appendChild(popup);
+          }
+
+
+          popup.style.webkitTransform = popup.style.transform = 'translate3d(' + selection.x + 'px, ' + selection.y + 'px, 0)';
+          popup.style.display = 'block';
+        }
+      });
+
+      var doAnnotation = function(selection) {
+        console.log('TEXT', selection.range.toString());
+
+        var selection = a.getSelection();
+        console.log('SELECTION', selection);
+
+        a.annotated();
+      };
+
+    </script>
+  </body>
+</html>
